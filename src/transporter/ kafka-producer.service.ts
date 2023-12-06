@@ -25,7 +25,7 @@ export class KafkaProducerService {
       },
     ];
 
-    this.producer.send(payloads, (err, data) => {
+    this.producer.send(payloads, (err) => {
       if (err) {
         console.error(`Erro ao enviar mensagem para o tópico ${topic}: ${err}`);
       }

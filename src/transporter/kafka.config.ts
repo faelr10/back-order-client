@@ -4,4 +4,4 @@ export const kafkaConfig = {
   },
 };
 
-export const request_order_topic = 'transaction_request.ledger.payment.1.0';
+export const request_order_topic = 'request_order_topic';

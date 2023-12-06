@@ -21,4 +21,8 @@ export class OrderRepository implements IOrderRepository {
   existsProduct(where: Partial<Product | any>): Promise<Product> {
     return this.prisma.product.findFirst({ where });
   }
+
+  existsOrder(where: Partial<Order> | any): Promise<Order> {
+    return this.prisma.order.findFirst({ where });
+  }
 }

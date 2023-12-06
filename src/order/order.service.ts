@@ -1,6 +1,10 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Order, Status } from '@prisma/client';
-import { IOrderService, NewOrderParams } from './structure/service.structure';
+import {
+  GetOrderParams,
+  IOrderService,
+  NewOrderParams,
+} from './structure/service.structure';
 import { OrderRepository } from './order.repository';
 import { IOrderRepository } from './structure/repository.structure';
 import { KafkaProducerService } from 'src/transporter/ kafka-producer.service';
@@ -41,5 +45,13 @@ export class OrderService implements IOrderService {
     });
 
     return newOrder;
+  }
+
+  async getInfoOrder(data: GetOrderParams): Promise<Order> {
+    const order = await this.repository.existsOrder(data.id);
+    if (!order) {
+      throw new BadRequestException('Order not found!');
+    }
+    return order;
   }
 }

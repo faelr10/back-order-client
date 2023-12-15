@@ -2,7 +2,12 @@ import { Order } from '@prisma/client';
 
 export type NewOrderParams = {
   account_id: string;
+  products: ProductsOrder[];
+};
+
+export type ProductsOrder = {
   product_id: string;
+  quantity: number;
 };
 
 export type GetOrderParams = {

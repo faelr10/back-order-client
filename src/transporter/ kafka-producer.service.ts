@@ -6,6 +6,8 @@ export type request_order_payload = {
   origin: string;
   order_id: string;
   status: string;
+  account_name: string;
+  product_name: string[];
 };
 
 @Injectable()

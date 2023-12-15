@@ -1,10 +1,16 @@
 import { Account, Order, Product, Status } from '@prisma/client';
-import { Or } from '@prisma/client/runtime/library';
 
 export type InsertOrderParams = {
   account_id: string;
-  product_id: string;
   status: Status;
+  number_order_id: string;
+  price: number;
+  products: product[];
+};
+
+export type product = {
+  product_id: string;
+  quantity: number;
 };
 
 export interface IOrderRepository {

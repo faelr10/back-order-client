@@ -15,14 +15,15 @@ enum Status {
 }
 
 model Order {
-  id         String   @id @default(uuid()) @db.Uuid
-  Account    Account  @relation(fields: [account_id], references: [id])
-  account_id String   @db.Uuid
-  Product    Product  @relation(fields: [product_id], references: [id])
-  product_id String   @db.Uuid
-  status     Status
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  updated_at DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+  id             String    @id @default(uuid()) @db.Uuid
+  number_order_id String    @unique @db.VarChar(8)
+  Account        Account   @relation(fields: [account_id], references: [id])
+  account_id     String    @db.Uuid
+  OrderProduct   OrderProduct[]
+  price          Decimal   @db.Decimal()
+  status         Status
+  created_at     DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime  @default(now()) @updatedAt @db.Timestamptz(6)
 
   @@map("order")
 }
@@ -38,14 +39,27 @@ model Account {
 }
 
 model Product {
-  id          String   @id @default(uuid()) @db.Uuid
-  name        String   @db.VarChar(255)
-  Category    Category @relation(fields: [category_id], references: [id])
-  category_id String   @db.Uuid
-  Order       Order[]
+  id           String         @id @default(uuid()) @db.Uuid
+  name         String         @db.VarChar(255)
+  price        Decimal        @db.Decimal()
+  Category     Category       @relation(fields: [category_id], references: [id])
+  category_id  String         @db.Uuid
+  OrderProduct OrderProduct[]
 
   @@map("product")
 }
+
+model OrderProduct {
+  order_id   String  @db.Uuid
+  product_id String  @db.Uuid
+  order      Order   @relation(fields: [order_id], references: [id])
+  product    Product @relation(fields: [product_id], references: [id])
+  quantity   Int     
+
+  @@id([order_id, product_id])
+  @@map("order_product")
+}
+
 
 model Category {
   id      String    @id @default(uuid()) @db.Uuid

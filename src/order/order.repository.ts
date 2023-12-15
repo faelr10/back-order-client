@@ -11,7 +11,19 @@ export class OrderRepository implements IOrderRepository {
   constructor(private prisma: PrismaService) {}
 
   insertOrder(data: InsertOrderParams): Promise<Order> {
-    return this.prisma.order.create({ data });
+    const { number_order_id, price, status, account_id, products } = data;
+
+    return this.prisma.order.create({
+      data: {
+        number_order_id,
+        price,
+        status,
+        account_id,
+        OrderProduct: {
+          create: products,
+        },
+      },
+    });
   }
 
   existsAccount(where: Partial<Account | any>): Promise<Account> {
